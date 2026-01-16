@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  freeFireId  String?  @unique
+  balance     Float    @default(0.0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  registrations Registration[]
+}
+
+model Tournament {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  
+  prizePool   Float    @default(0)
+  entryFee    Float    @default(0)
+  
+  startTime   DateTime
+  bgImage     String?
+  
+  // Status: OPEN, LIVE, COMPLETED, CANCELLED
+  status      String   @default("OPEN")
+  
+  // Type: SOLO, DUO, SQUAD
+  type        String   @default("SOLO")
+  
+  map         String?  // BERMUDA, PURGATORY, etc.
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  registrations Registration[]
+}
+
+model Registration {
+  id            String     @id @default(uuid())
+  
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  
+  tournamentId  String
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  
+  joinedAt      DateTime   @default(now())
+  
+  @@unique([userId, tournamentId]) // Link a user to a tournament only once
+}

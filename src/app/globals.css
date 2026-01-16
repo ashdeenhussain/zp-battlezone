@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  /* ZP Battle Zone Colors */
+  --background: #020617; /* Dark Slate 950 */
+  --foreground: #ffffff;
+  --primary: #EAB308;    /* Yellow 500 */
+  --secondary: #2563EB;  /* Blue 600 */
+  --accent: #F59E0B;     /* Amber 500 */
+  
+  --card: #1e293b;       /* Slate 800 */
+  --card-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
